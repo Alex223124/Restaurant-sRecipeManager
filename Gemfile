@@ -13,7 +13,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'carrierwave', '~> 0.10.0'
 gem 'mini_magick', '~> 4.2.7'
-
+gem 'will_paginate', '~> 3.0.7'
+gem 'will_paginate-bootstrap', '~> 1.0.1'
+gem 'bcrypt-ruby', '~> 3.1.5'
 
 group :development, :test do
   gem 'pry'
