@@ -1,4 +1,4 @@
-class ChefsController < ApplicationControler
+class ChefsController < ApplicationController
   before_action :sef_chef, only: [:edit, :upate, :show]
   before_action :require_same_user, only: [:edit, :update]
   

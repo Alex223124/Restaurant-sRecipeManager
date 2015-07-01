@@ -1,68 +1,68 @@
-<%= render 'shared/page_title', title: @recipe.name %>
-<div class="row">
-	<div class="col-md-4 pull-right center" >
-		<%= link_to gravatar_for(@recipe.chef, size: 200), chef_path(@recipe.chef) %>
-		<p>
-			<h5>Brought to you by: <%= @recipe.chef.chefname %></h5>
-		</p>
-	</div>
-	<div class="col-md-8">
-		<% if logged_in? and(@recipe.chef == current_user || current_user.admin?) %>
-		<%= link_to "Edit This Recipe", edit_recipe_path(@recipe), class: "btn border-blue-browse pull-right" %>
-		<% end %>
-		<% if logged_in? and current_user.admin? %>
-		<%= link_to "[Delete Recipe]", @recipe, method: :delete, data: { confirm: "Are you sure you want to delete this recipe?" } %>
-		<%end%>
-		<h3><%= @recipe.summary %></h3>
-		<div class="show_recipe">
-			<%= image_tag(@recipe.picture.url, class: "gravatar") if @recipe.picture? %>
-		</div>
-		<div class="well">
-			<% if @recipe.styles.any? %>
-			<p>Style: <%= render @recipe.styles %></p>
-			<% end %>
-			<% if @recipe.ingredients.any? %>
-			<p>Ingredients: <%= render @recipe.ingredients %></p>
-			<% end %>
-			<p>
-				<strong>Steps:</strong>
-			</p>
-			<%= simple_format(@recipe.description) %>
-			<div class="pull-right">
-				<%= link_to like_recipe_path(@recipe, like: true), method: :post do %>
-				<i class="glyphicon glyphicon-thumbs-up"></i>&nbsp <%= @recipe.thumbs_up_total %>
-				<% end %> &nbsp&nbsp&nbsp&nbsp
-				<%= link_to like_recipe_path(@recipe, like: false), method: :post do %>
-				<i class="glyphicon glyphicon-thumbs-down"></i>&nbsp <%= @recipe.thumbs_down_total %>
-				<% end %>
+</script>
+<header class="navbar navbar-fixed-top navbar-default">
+	<div class="container">
+		<%= link_to "Cookin", root_path, class: "btn btn-lg boder-blue-logo logo-hover", id: "logo" %>
+			<ul class="nav_ul_item">
+				<li class="dropdown">
+					<%= link_to "#", class: "btn btn-default border-blue dropdown-toggle", "data-toggle" => "dropdown" do %>
+					Styles <b class="caret"></b>
+					<% end %>
+					<ul class="dropdown-menu">
+						<% Style.all.each do |style| %>
+						<li><%= link_to style.name, style_path(style) %></li>
+						<% end %>
+						<% if logged_in? %>
+							<li class="divider"></li>
+							<li>
+								<%= link_to(new_style_path) do %>
+									New Style
+								<% end %> 
+							</li>
+							<% end %>
+					</ul>
+				</li>
+			</ul>
+			<ul class="nav_ul_item">
+				<li class="dropdown">
+					<%= link_to "#", class: "btn btn-default border-blue dropdown-toggle", "data-toggle" => "dropdown" do %>
+					Ingredients <b class="caret"></b>
+					<% end %>
+					<ul class="dropdown-menu">
+						<% Ingredient.all.each do |ingredient| %>
+						<li><%= link_to ingredient.name, ingredient_path(ingredient) %></li>
+						<% end %>
+							<% if logged_in? %>
+							<li class="divider"></li>
+							<li>
+								<%= link_to(new_ingredient_path) do %>
+									New Ingredient
+								<% end %> 
+							</li>
+							<% end %>
+					</ul>
+				</li>
+			</ul>
+			<% if logged_in? %>
+			<div class="nav_item">
+				<%= link_to "New Recipe", new_recipe_path, class: "btn btn-default border-blue" %>
 			</div>
-		</div>
-	</div>
-</div>
-<% if logged_in? %>
-<div class="row">
-	<div class="col-md-8">
-		<%= render 'shared/page_title', title: "Review This Recipe" %>
-		
-		
-				<%= form_for([@recipe, @review]) do |f| %>
-				<%= f.label :Review %>
-				<%= f.text_area :body, rows: 5  %>
-			
-				<%= f.submit "Create Review", class: "btn btn-success" %>
-				<% end %>
-			
-	</div>
-</div>
-<% else %>
-<p><%= link_to "Want to leave a review? Go Sign up!", register_path %></p>
-<% end %>
-<div class="row">
-	<div class="col-md-8">
-		<h2>Reviews</h2>
-			<%= render @recipe.reviews %>
-
-		</div>
-	</div>
-
-<h5><%= link_to "Return to Recipe Listing", recipes_path, class: "btn border-blue-browse btn-small" %></h5>
+			<ul class="nav_item">
+				<li class="dropdown">
+					<%= link_to "#", class: "btn btn-default border-danger dropdown-toggle", "data-toggle" => "dropdown" do %>
+					<%= current_user.chefname %> <b class="caret"></b>
+					<% end %>
+					<ul class="dropdown-menu">
+						<li><%= link_to "View Profile", chef_path(current_user) %></li>
+						<li><%= link_to "Edit Profile", edit_chef_path(current_user) %></li>
+						<li class="divider"></li>
+						<li><%= link_to "Logout", logout_path %></li>
+					</ul>
+				</li>
+			</ul>
+			<% else %>
+			<div class="nav_item">
+				<%= link_to "Log In", login_path, class: "btn btn-default btn-success" %>
+			</div>
+			<% end %>		
+	</div> 
+</header>
